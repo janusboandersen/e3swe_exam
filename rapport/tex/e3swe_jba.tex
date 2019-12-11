@@ -8,7 +8,7 @@
 \usepackage{fancyref}
 \setlength{\parindent}{0pt}
 
-\title{E3SWE: Docker-compose services}
+\title{E3SWE: Webservice med docker-compose}
 \author{Janus Bo Andersen  \\
 	JA67494 \\
 	Ingeniørhøjskolen i Aarhus, Campus Herning
@@ -28,6 +28,7 @@ Den skal kunne tilgås på port 80 (standard Http).
 Der skal tilknyttes et permanent lagermedium (Docker volume) til databasen.
 \\\\
 En tilsvarende webservice er sat op af forfatteren m.fl. ifm. E3PRO3, dog med Django i stedet for Flask \cite{team2}.
+Al kode samt dette dokument kan ses på forfatterens Github \cite{janus}.
 
 \section{Design}
 Følgende figur illustrerer design af systemet.
@@ -44,12 +45,19 @@ Det er værd at bemærke princippet, at \textit{specifikke} versioner af images 
 Implementerede versioner af images ses i figur~\ref{fig:design}.
 I \texttt{docker-compose.yml}, er oprettelse af netværk (bridges) sat til at foretages automatisk af docker-compose,
 der er derfor ikke navngivne netværksbroer. Alle containers kan forbindes via deres service/host-navne.
-Al kode samt dette dokument kan ses på forfatterens Github \cite{janus}.
-\texttt{Dockerfile} til Flask-app'en er gengivet her, fordi den er ``custom''.
+Endelig \texttt{docker-compose.yml}:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=8cm]{../img/docker-compose.png}
+\caption{Dockerfile\label{fig:dockercompose}}
+\end{figure}
+
+\texttt{Dockerfile} til Flask-app'en er også gengivet her, fordi den er ``custom''.
 \\\\
 \begin{figure}[H]
 \centering
-\includegraphics[width=12cm]{../img/dockerfile.png}
+\includegraphics[width=8cm]{../img/dockerfile.png}
 \caption{Dockerfile\label{fig:dockerfile}}
 \end{figure}
 
@@ -80,10 +88,10 @@ Næste figur viser, at Nginx responderer på en Http-request, og proxyer til Fla
 \end{figure}
 
 \begin{par}
-Systemet fungerer, som ønsket.
+Systemet fungerer som ønsket.
 \end{par}
 
-\section{Forbedringsmuligheder}
+\section{Forbedringsforslag}
 \begin{itemize}
 	\item Flask's applikationsserver er ikke til produktion, og bør udskiftes med en WSGI-server med produktionskapacitet/sikkerhed, fx gunicorn.
 	\item Databasen bliver ikke pt. benyttet af Flask. For at det kan virke godt, skal requirements.txt indeholde:
@@ -92,7 +100,7 @@ Systemet fungerer, som ønsket.
 		\item flask\_sqlalchemy (el.lign. toolkit/ORM til OOP).
 		\item flask\_migrate (til at implementere schema-ændringer i databasen).
 	\end{itemize}
-	\item Opsætning, så der kan serves staticfiles.
+	\item Opsætning så der kan serves staticfiles.
 	\item Opsætning af SSL/TLS-krypteret trafik (Https på port 443).
 	\item Klargøring til deployment, fx til Heroku, AWS eller lignende.
 	\item Noget \textit{langt mere} interessant indhold.
@@ -107,8 +115,7 @@ Al kode er tilgængelig på Github.
 	\bibitem{team2} E3PRO3 Team 2, 2019. \emph{E3PRO3 Server setup},
 	url: \url{https://github.com/AUTeam2/server-setup}.
 	\bibitem{janus} Janus Bo Andersen. \emph{Github repo e3swe\_exam},
-	url: \url{https://github.com/AUTeam2/server-setup}.
-	\url{https://github.com/janusboandersen/e3swe_exam}.
+	url: \url{https://github.com/janusboandersen/e3swe_exam}.
 	\bibitem{hub} Docker Hub. \emph{Official Docker Images},
 	url: \url{https://hub.docker.com/search?type=image&image_filter=official}.
 \end{thebibliography}
